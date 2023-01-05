@@ -1,45 +1,53 @@
-name: Run commands on different operating systems
+name: Build and Deploy Windows Container App to Azure App Service
+
+# Trigger the build on commits into the master branch
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
+# Starts jobs and sets the type of runner (Windows) they will run on
 jobs:
-  Run-npm-on-Ubuntu:
-    name: Run npm on Ubuntu
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm help
-     - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-
-  Run-PSScriptAnalyzer-on-Windows:
-    name: Run PSScriptAnalyzer on Windows
+  build-and-deploy-to-azure:
     runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install PSScriptAnalyzer module
-        shell: pwsh
-        run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -ErrorAction Stop
-      - name: Get list of rules
-        shell: pwsh
-        run: |
-          Get-ScriptAnalyzerRule
-     - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          
 
-    
+    steps:
+
+    # Checks out repository so your workflow can access it
+    - uses: actions/checkout@v1
+
+    # Authenticate a Service Principal to deploy to your Web App
+    - name: Azure Service Principal Authentication
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Use docker login to log into ACR 
+    - name: Docker login to ACR
+      uses: azure/docker-login@v1
+      with:
+       # comment out the login-server parameter if using docker hub
+        login-server: ${{ secrets.CONTAINER_REGISTRY_NAME }}
+        username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+        password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+
+    # Build and push your image to Azure Container Registry 
+    - name: Build and Push container to ACR
+      run: |
+        docker build --file=taskapp/taskapp/Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
+        docker push ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}  
+
+    # Deploy your container to App Service 
+    - name: Deploy Container to Azure App Service
+      uses: azure/webapps-container-deploy@v1
+      with:
+        app-name: ${{ secrets.APP_NAME }}
+        images: ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+
+    # Deploy a dacpac file to your SQL server
+    - name: Azure SQL Deploy
+      uses: Azure/sql-action@v1
+      with:
+        server-name: ${{ secrets.DATABASE_SERVER_NAME }}
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        dacpac-package: './data.dacpac'
