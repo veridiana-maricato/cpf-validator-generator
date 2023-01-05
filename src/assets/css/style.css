@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  background-image: url("https://images.freeimages.com/images/large-previews/d3c/hubble-1632627.jpg");
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.container {
+  width: 60%;
+  color: white;
+  text-align: center;
+  margin: auto;
+  margin-top: 24vh;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 40px;
+}
+
+input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#check-btn,
+#generate-btn {
+  background-color: #fffcf7;
+  border: #533747;
+  color: #533747;
+  font-size: 14px;
+  margin-top: 20px;
+  border-radius: 5px;
+  padding: 5px 20px 5px 20px;
+}
+
+#generate-btn {
+  margin-top: -100px;
+}
+
+#check-btn:hover,
+#generate-btn:hover {
+  background-color: #40916c;
+  color: white;
+  transition: all 200ms ease;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.new-cpf {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.validator {
+  margin-top: -100px;
+  background-color: rgba(118, 148, 159, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+.generator {
+  background-color: rgba(95, 80, 107, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.invalid {
+  color: #9e2a2b;
+  font-weight: bold;
+  font-size: 20px;
+}
+.valid {
+  color: #b5e48c;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.footer {
+  background-color: #000;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 0;
+  height: 30px;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gerador de CPF</title>
+</head>
+
+<body>
+
+  <section class="container">
+    <div class="validator">
+      <h1>Validador de CPF</h1>
+      <form action="" class="input-container">
+        <label for="cpf">Verificar se o CPF é válido:</label>
+        <input autocomplete="off" maxlength="14" class="cpf-input" id="cpf" name="cpf" type="text" placeholder="Insira o CPF aqui">
+        <button id="check-btn">Verificar</button>
+      </form>
+      <div class="result"></div>
+    </div>
+    <div class="generator">
+      <h1>Gerador de CPF</h1>
+      <button id="generate-btn">Gerar</button>
+
+      <div class="new-cpf"></div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>©2022 - All rights reserved - website produced by Veridiana Maricato</p>
+  </div>
+
+  <script src="./assets/js/bundle.js"></script>
+</body>
+
+</html>
