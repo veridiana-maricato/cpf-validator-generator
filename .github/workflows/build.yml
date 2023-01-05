@@ -15,6 +15,11 @@ jobs:
         with:
           node-version: '14'
       - run: npm help
+     - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
 
   Run-PSScriptAnalyzer-on-Windows:
     name: Run PSScriptAnalyzer on Windows
@@ -30,3 +35,11 @@ jobs:
         shell: pwsh
         run: |
           Get-ScriptAnalyzerRule
+     - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          
+
+    
