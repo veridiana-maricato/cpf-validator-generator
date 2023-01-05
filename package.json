@@ -1,6 +1,7 @@
 {
-  "name": "aula93",
+  "name": "cpf-validator-generator",
   "version": "1.0.0",
+  "homepage": "cpf-validator-generator/",
   "description": "",
   "main": "index.js",
   "scripts": {
